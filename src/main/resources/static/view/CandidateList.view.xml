@@ -1,0 +1,69 @@
+<mvc:View controllerName="ro.ubb.cs.re.jcm.controller.CandidateList" xmlns:mvc="sap.ui.core.mvc"
+          displayBlock="true" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Page title="{i18n>listPageTitle}" busy="{/loading}">
+		<Table id="table" growing="true" growingScrollToLoad="true" items="{/candidates}" mode="MultiSelect">
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="{i18n>Candidates}" level="H2" visible="{= !${device>/system/phone} }"/>
+                    <ToolbarSpacer visible="{= !${device>/system/phone} }"/>
+                    <SearchField width="{= ${device>/system/phone} ? '10em' : '15em' }" search="onSearch" />
+                    <ToolbarSpacer visible="{device>/system/phone}"/>
+                    <Button icon="sap-icon://sort" press="onSortButtonPress" />
+                    <Button icon="sap-icon://download" press="onExportSelection" />
+                    <Button icon="sap-icon://add" press="onAddButtonPress" />
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column>
+                    <header><Label text="{i18n>listPageColumnFullNameHeader}" /></header>
+                </Column>
+                <Column demandPopin="true" minScreenWidth="tablet">
+                    <header><Label text="{i18n>listPageColumnStudyLocationHeader}" /></header>
+                </Column>
+                <Column demandPopin="true" minScreenWidth="tablet">
+                    <header><Label text="{i18n>listPageColumnStudyYearHeader}" /></header>
+                </Column>
+                <Column>
+                    <header><Label text="{i18n>listPageColumnEmailHeader}" /></header>
+                </Column>
+            </columns>
+            <ColumnListItem type="Navigation" press="onItemPress">
+                <Text text="{fullName}" />
+                <Text text="{studyLocation}" />
+                <Text text="{path: 'studyYear', formatter: '.toRomanNumeral'}" />
+                <Link text="{email}" href="mailto:{email}" />
+            </ColumnListItem>
+        </Table>
+        <dependents>
+            <ResponsivePopover id="popover" title="{i18n>listPagePopoverTitle}"
+                class="sapUiPopupWithPadding" placement="Bottom" contentWidth="20em" >
+                <beginButton>
+                    <Button text="{i18n>listPagePopoverAccept}" press="onAcceptSort" />
+                </beginButton>
+                <endButton>
+                    <Button text="{i18n>listPagePopoverCancel}" press="onCancelSort" />
+                </endButton>
+                <content>
+                    <VBox>
+                        <Label text="{i18n>listPageSortKey}" />
+                        <SelectList selectedKey="{/sort/key}">
+                            <core:Item key="fullName" text="{i18n>listPageColumnFullNameHeader}" />
+                            <core:Item key="studyLocation" text="{i18n>listPageColumnStudyLocationHeader}" />
+                            <core:Item key="studyYear" text="{i18n>listPageColumnStudyYearHeader}" />
+                            <core:Item key="email" text="{i18n>listPageColumnEmailHeader}" />
+                            <core:Item key="none" text="{i18n>listPageSortNone}" />
+                        </SelectList>
+                        <Label text="{i18n>listPageSortDirection}" class="sapUiTinyMarginTop" />
+                        <SegmentedButton selectedKey="{/sort/direction}" width="100%"
+                                         enabled="{= ${/sort/key} !== 'none' }" >
+                            <items>
+                                <SegmentedButtonItem key="asc" text="{i18n>listPageSortAscending}" />
+                                <SegmentedButtonItem key="desc" text="{i18n>listPageSortDescending}" />
+                            </items>
+                        </SegmentedButton>
+                    </VBox>
+                </content>
+            </ResponsivePopover>
+        </dependents>
+	</Page>
+</mvc:View>
