@@ -24,7 +24,7 @@ public class CandidateDto {
 	private String email;
 
 	@Size(max = 20, message = "Phone number may not be longer than 20 characters.")
-	@Pattern(regexp = "^((\\+4|004)?[ |-]?\\d{4}[ |-]?\\d{3}[ |-]?\\d{3})?$", message = "The given phone number is invalid.")
+	@Pattern(regexp = "^((\\+4|004)?[ -]?\\d{4}[ -]?\\d{3}[ -]?\\d{3})?$", message = "The given phone number is invalid.")
 	private String phone;
 
 	@Min(value = 1, message = "The study year is invalid.")
